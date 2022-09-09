@@ -1,16 +1,22 @@
+import java.io.IOException;
+import java.io.File;
 import java.util.Scanner;
 
 class Test {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         double a = 0.0;
         double b = 0.0;
         Boolean flag = true;
         char znak = ' ';
         String slovo = "";
 
-        Scanner sc = new Scanner(System.in);
+        String fileSeparator = System.getProperty("file.separator");
+        String relativePath = "src" + fileSeparator + "input.txt";
+        File file = new File(relativePath);
+        Scanner sc = new Scanner(file);
         slovo = sc.nextLine();
+        sc.close();
         try {
             a = Double.parseDouble(slovo.split(" ")[0]);
         }
@@ -31,7 +37,7 @@ class Test {
             if (slovo.split(" ")[1].equals("/") || slovo.split(" ")[1].equals("*") || slovo.split(" ")[1].equals("+") || slovo.split(" ")[1].equals("-")) {
                 znak = slovo.split(" ")[1].charAt(0);
             } else try {
-                throw new Exception("OperationError");
+                throw new Exception("Operation Error!");
             } catch (Exception e) {
                 System.out.print(e.getMessage());
                 flag = false;
@@ -40,11 +46,11 @@ class Test {
         if (flag){
             switch(znak){
                 case('+'): System.out.print(a + b);
-                break;
+                    break;
                 case('-'): System.out.print(a - b);
-                break;
+                    break;
                 case('*'): System.out.print(a * b);
-                break;
+                    break;
                 case('/'):
                     if (b != 0.0) {
                         System.out.print(a / b);
