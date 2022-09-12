@@ -1,5 +1,5 @@
 import java.io.IOException;
-import java.io.File;
+import java.io.*;
 import java.util.Scanner;
 
 class Test {
@@ -10,6 +10,7 @@ class Test {
         Boolean flag = true;
         char znak = ' ';
         String slovo = "";
+        String Finish = "";
 
         String fileSeparator = System.getProperty("file.separator");
         String relativePath = "src" + fileSeparator + "input.txt";
@@ -18,10 +19,12 @@ class Test {
         while (sc.hasNextLine()) {
             slovo = sc.nextLine();
 
+
             try {
                 a = Double.parseDouble(slovo.split(" ")[0]);
             } catch (NumberFormatException e) {
                 System.out.println("Error! Not number");
+                Finish = Finish + "Error! Not number\n";
                 flag = false;
             }
 
@@ -31,6 +34,7 @@ class Test {
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Error! Not number");
+                Finish = Finish + "Error! Not number\n";
                 flag = false;
             }
 
@@ -41,6 +45,7 @@ class Test {
                     throw new Exception("Operation Error!");
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
+                    Finish = Finish + e.getMessage() + "\n";
                     flag = false;
                 }
             }
@@ -49,24 +54,45 @@ class Test {
                 switch (znak) {
                     case ('+'):
                         System.out.println(a + " " + znak + " " + b + " = "  + (a + b));
+                        Finish = Finish + a + " " + znak + " " + b + " = "  + (a + b) + "\n";
                         break;
                     case ('-'):
                         System.out.println(a + " " + znak + " " + b + " = "  + (a - b));
+                        Finish = Finish + a + " " + znak + " " + b + " = "  + (a - b) + "\n";
                         break;
                     case ('*'):
                         System.out.println(a + " " + znak + " " + b + " = "  + (a * b));
+                        Finish = Finish + a + " " + znak + " " + b + " = "  + (a * b) + "\n";
                         break;
                     case ('/'):
                         if (b != 0.0) {
                             System.out.println(a + " " + znak + " " + b + " = "  + (a / b));
+                            Finish = Finish + a + " " + znak + " " + b + " = "  + (a / b) + "\n";
                         } else try {
                             throw new Exception("Error! Division by zero");
                         } catch (Exception e) {
                             System.out.println(e.getMessage());
+                            Finish = Finish + e.getMessage() + "\n";
                         }
                         break;
                 }
             }
+        }
+        zapis(Finish);
+    }
+
+    public static void zapis(String TextOut) throws FileNotFoundException {
+        String fileSeparator = System.getProperty("file.separator");
+        String relativePathOut = "src" + fileSeparator + "output.txt";
+
+        try(FileOutputStream fos=new FileOutputStream(relativePathOut);
+            PrintStream printStream = new PrintStream(fos))
+        {
+            printStream.append(TextOut);
+        }
+        catch(IOException ex){
+
+            System.out.println(ex.getMessage());
         }
     }
 }
